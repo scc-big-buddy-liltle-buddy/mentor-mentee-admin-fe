@@ -27,7 +27,7 @@ const LinkItems = [
 export default function SimpleSidebar({ content }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg="tomato" w="100%" size={"full"}>
+    <Box minH="100vh" w="100%" size={"full"}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -46,7 +46,7 @@ export default function SimpleSidebar({ content }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} bg="scc_blue.100" height={"100%"} p="4">
+      <Box ml={{ base: 0, md: 60 }} height={"100%"} p="4">
         {content}
       </Box>
     </Box>
@@ -93,7 +93,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             isHighlighted={current === link.name}
             icon={link.icon}
             onClick={() => {
-              if (current !== "Logout") {
+              if (link.name != LinkItems[LinkItems.length - 1].name) {
                 navigate(`/${link.name.toLowerCase()}`);
                 setCurrent(link.name);
               }

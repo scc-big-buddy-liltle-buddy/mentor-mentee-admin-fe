@@ -19,6 +19,10 @@ const theme = extendTheme({
       100: "#FFF200",
     },
   },
+  fonts: {
+    heading: `'Nunito', sans-serif`,
+    body: `'Nunito', sans-serif`,
+  },
 });
 
 const router = createBrowserRouter([
