@@ -55,7 +55,9 @@ export default function SimpleSidebar({ content }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const findLinkItemByPathname = (pathname) => {
-    return LinkItems.find((item) => item.pathname === pathname) || LinkItems[0];
+    return (
+      LinkItems.find((item) => pathname.includes(item.pathname)) || LinkItems[0]
+    );
   };
 
   const navigate = useNavigate();
