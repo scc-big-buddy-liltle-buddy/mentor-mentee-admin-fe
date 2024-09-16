@@ -41,14 +41,8 @@ const router = createBrowserRouter([
         element: <Manage />,
       },
       {
-        path: "match",
+        path: "match/*",
         element: <Match />,
-        children: [
-          {
-            element: <Match />,
-            path: ":matchId",
-          },
-        ],
       },
     ],
   },

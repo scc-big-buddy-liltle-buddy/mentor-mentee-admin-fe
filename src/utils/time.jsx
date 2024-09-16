@@ -15,3 +15,5 @@ export const formatTimeDate = (timestamp) => {
   const formattedDate = date.toLocaleString("en-US", options);
   return formattedDate;
 };
+
+export const currentAge = (birthYear) => new Date().getFullYear() - birthYear;

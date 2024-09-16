@@ -12,29 +12,35 @@ import {
   Button,
 } from "@chakra-ui/react";
 import React from "react";
-import { FiChevronDown } from "react-icons/fi";
 
-const MenuOptions = ({ options, onChange, title }) => {
+const MenuOptions = ({
+  parent,
+  options,
+  onChange,
+  title,
+  customColorScheme = "blue",
+}) => {
   const handleSelect = (option) => {
     onChange(option);
   };
 
   return (
     <Menu closeOnSelect={false}>
-      <MenuButton as={Button} colorScheme="blue">
+      <MenuButton as={Button} colorScheme={customColorScheme}>
         {title}
       </MenuButton>
       <MenuList minWidth="240px">
         {options.map((option, index) => (
           <>
             <MenuOptionGroup
+              key={`${parent}_${index}_group`}
               onChange={(value) => onChange(value)}
               defaultValue="asc"
               title={option.group}
               type="radio"
             >
               {option.options.map((opt, index) => (
-                <MenuItemOption key={index} value={opt.value}>
+                <MenuItemOption key={`${parent}_${index}`} value={opt.value}>
                   {opt.label}
                 </MenuItemOption>
               ))}

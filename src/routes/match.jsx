@@ -1,11 +1,13 @@
 import { SearchBar } from "../component/SearchBar";
 import MenuOptions from "../component/MenuOptions";
 import NewMatch from "../component/NewMatch";
+import GroupDetail from "../component/GroupDetail";
 import {
   Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Center,
   Flex,
   Modal,
   ModalBody,
@@ -22,6 +24,7 @@ import {
 import React, { useEffect } from "react";
 import {
   FiChevronDown,
+  FiChevronLeft,
   FiChevronRight,
   FiDelete,
   FiPlus,
@@ -99,6 +102,8 @@ const Match = () => {
     fetchData();
   }, []);
 
+  const [selectedMatch, setSelectedMatch] = React.useState(null);
+
   const navigate = useNavigate();
   const [search, setSearch] = React.useState("");
   const { matchId } = useParams();
@@ -111,7 +116,7 @@ const Match = () => {
     .map((match) => match.handle.crumb(match.data));
   return (
     <Box color="gray.900">
-      <Breadcrumb spacing="8px" separator={<FiChevronRight color="gray.500" />}>
+      {/* <Breadcrumb spacing="8px" separator={<FiChevronRight color="gray.500" />}>
         <BreadcrumbItem>
           <BreadcrumbLink
             onClick={() => {
@@ -127,10 +132,10 @@ const Match = () => {
             <BreadcrumbLink>{getMatchNameByUID(matchId)}</BreadcrumbLink>
           </BreadcrumbItem>
         )}
-      </Breadcrumb>
+      </Breadcrumb> */}
 
       <Routes>
-        <Route path="/:matchId" element={<MatchDetail />} />
+        <Route path="/:matchId/*" element={<MatchDetail />}></Route>
         <Route
           path="/"
           element={
@@ -166,155 +171,165 @@ const Match = () => {
                   </ModalContent>
                 </Modal>
               </>
-              <Flex gap={2} justifyContent={"space-between"} mt={5} mb={5}>
-                <Flex width={"100%"} gap={2}>
-                  <SearchBar
-                    placeholder={"Search match"}
-                    onChange={(value) => setSearch(value)}
-                  />{" "}
-                  <MenuOptions
-                    onChange={(value) => {
-                      // Switch_case
-                      switch (value) {
-                        case "name_asc":
-                          setMatchData(
-                            matchData.sort((a, b) => {
-                              return a.matchName.localeCompare(b.matchName);
-                            })
-                          );
-                          break;
-                        case "name_desc":
-                          setMatchData(
-                            matchData.sort((a, b) => {
-                              return b.matchName.localeCompare(a.matchName);
-                            })
-                          );
-                          break;
-                        case "date_asc":
-                          setMatchData(
-                            matchData.sort((a, b) => {
-                              return (
-                                new Date(b.createdAt) - new Date(a.createdAt)
-                              );
-                            })
-                          );
-                          break;
-                        case "date_desc":
-                          setMatchData(
-                            matchData.sort((a, b) => {
-                              return (
-                                new Date(a.createdAt) - new Date(b.createdAt)
-                              );
-                            })
-                          );
-                          break;
-                        default:
-                          break;
-                      }
-                    }}
-                    options={[
-                      {
-                        group: "Name",
-                        options: [
-                          { label: "A - Z", value: "name_asc" },
-                          { label: "Z - A", value: "name_desc" },
-                        ],
-                      },
-                      {
-                        group: "Date",
-                        options: [
-                          { label: "Newest", value: "date_asc" },
-                          { label: "Oldest", value: "date_desc" },
-                        ],
-                      },
-                    ]}
-                    title={"Sort by"}
-                  />
-                </Flex>
-                <Button
-                  colorScheme="blue"
-                  variant="solid"
-                  onClick={() => {
-                    navigate("/match/new");
-                  }}
-                >
-                  <Flex alignItems={"center"} justifyContent={"center"} gap={2}>
-                    <Text>New match</Text>
-
-                    <FiPlus />
+              <div>
+                <Flex gap={2} justifyContent={"space-between"} mt={5} mb={5}>
+                  <Flex width={"100%"} gap={2}>
+                    <SearchBar
+                      placeholder={"Search match"}
+                      onChange={(value) => setSearch(value)}
+                    />{" "}
+                    <MenuOptions
+                      onChange={(value) => {
+                        // Switch_case
+                        switch (value) {
+                          case "name_asc":
+                            setMatchData(
+                              matchData.sort((a, b) => {
+                                return a.matchName.localeCompare(b.matchName);
+                              })
+                            );
+                            break;
+                          case "name_desc":
+                            setMatchData(
+                              matchData.sort((a, b) => {
+                                return b.matchName.localeCompare(a.matchName);
+                              })
+                            );
+                            break;
+                          case "date_asc":
+                            setMatchData(
+                              matchData.sort((a, b) => {
+                                return (
+                                  new Date(b.createdAt) - new Date(a.createdAt)
+                                );
+                              })
+                            );
+                            break;
+                          case "date_desc":
+                            setMatchData(
+                              matchData.sort((a, b) => {
+                                return (
+                                  new Date(a.createdAt) - new Date(b.createdAt)
+                                );
+                              })
+                            );
+                            break;
+                          default:
+                            break;
+                        }
+                      }}
+                      options={[
+                        {
+                          group: "Name",
+                          options: [
+                            { label: "A - Z", value: "name_asc" },
+                            { label: "Z - A", value: "name_desc" },
+                          ],
+                        },
+                        {
+                          group: "Date",
+                          options: [
+                            { label: "Newest", value: "date_asc" },
+                            { label: "Oldest", value: "date_desc" },
+                          ],
+                        },
+                      ]}
+                      title={"Sort by"}
+                    />
                   </Flex>
-                </Button>
-              </Flex>
+                  <Button
+                    colorScheme="blue"
+                    variant="solid"
+                    onClick={() => {
+                      navigate("/match/new");
+                    }}
+                  >
+                    <Flex
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      gap={2}
+                    >
+                      <Text>New match</Text>
 
-              <TableContainer>
-                <Table variant="simple">
-                  <Thead>
-                    <Tr>
-                      <Th color="scc_blue.100">Name</Th>
-                      <Th color="scc_blue.100">Date</Th>
-                      <Th></Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {matchData && matchData.length > 0 ? (
-                      matchData.map((match, index) => {
-                        return (
-                          <Tr key={index}>
-                            <Td>{match.matchName}</Td>
-                            <Td>{formatTimeDate(match.createdAt)}</Td>
-                            <Td>
-                              <ButtonGroup gap={2}>
-                                <Button
-                                  onClick={() => {
-                                    navigate("/match/" + match.uid);
-                                  }}
-                                >
-                                  View detail
-                                </Button>
-                                <Button
-                                  colorScheme="yellow"
-                                  onClick={() => {
-                                    OpenDeleteModal(match.uid);
-                                  }}
-                                >
-                                  <FiTrash />
-                                </Button>
-                              </ButtonGroup>
-                            </Td>
-                          </Tr>
-                        );
-                      })
-                    ) : isFetching ? (
-                      <Flex
-                        w="100%"
-                        p={4}
-                        justifyContent={"start"}
-                        alignItems={"center"}
-                        height={"100%"}
-                      >
-                        <Spinner
-                          thickness="4px"
-                          speed="0.65s"
-                          emptyColor="gray.200"
-                          color="blue.500"
-                          size="xl"
-                        />
-                      </Flex>
-                    ) : (
+                      <FiPlus />
+                    </Flex>
+                  </Button>
+                </Flex>
+
+                <TableContainer>
+                  <Table variant="simple">
+                    <Thead>
                       <Tr>
-                        <Td colSpan={3}>No data</Td>
+                        <Th color="scc_blue.100">Name</Th>
+                        <Th color="scc_blue.100">Date</Th>
+                        <Th></Th>
                       </Tr>
-                    )}
-                  </Tbody>
-                  <Tfoot>
-                    {/* <Tr>
+                    </Thead>
+                    <Tbody>
+                      {matchData && matchData.length > 0 ? (
+                        matchData
+                          .filter((item) => item.matchName.includes(search))
+                          .map((match, index) => {
+                            return (
+                              <>
+                                <Tr key={index}>
+                                  <Td>{match.matchName}</Td>
+                                  <Td>{formatTimeDate(match.createdAt)}</Td>
+                                  <Td>
+                                    <ButtonGroup gap={2}>
+                                      <Button
+                                        onClick={() => {
+                                          navigate("/match/" + match.uid);
+                                        }}
+                                      >
+                                        View detail
+                                      </Button>
+                                      <Button
+                                        colorScheme="yellow"
+                                        onClick={() => {
+                                          OpenDeleteModal(match.uid);
+                                        }}
+                                      >
+                                        <FiTrash />
+                                      </Button>
+                                    </ButtonGroup>
+                                  </Td>
+                                </Tr>
+                              </>
+                            );
+                          })
+                      ) : isFetching ? (
+                        <Flex
+                          w="100%"
+                          p={4}
+                          justifyContent={"start"}
+                          alignItems={"center"}
+                          height={"100%"}
+                        >
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="xl"
+                          />
+                        </Flex>
+                      ) : (
+                        <Tr>
+                          <Td colSpan={3}>No data</Td>
+                        </Tr>
+                      )}
+                    </Tbody>
+                    <Tfoot>
+                      {/* <Tr>
               <Th>To convert</Th>
               <Th>into</Th>
               <Th isNumeric>multiply by</Th>
             </Tr> */}
-                  </Tfoot>
-                </Table>
-              </TableContainer>
+                    </Tfoot>
+                  </Table>
+                </TableContainer>
+              </div>
             </>
           }
         />
