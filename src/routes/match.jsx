@@ -51,6 +51,7 @@ import {
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import MatchDetail from "../component/MatchDetail";
 import { formatTimeDate } from "../utils/time";
+import { useMatchStore } from "../store/match";
 
 const Match = () => {
   const [matchData, setMatchData] = React.useState([]);
@@ -67,6 +68,7 @@ const Match = () => {
     setCurrentDelete(matchId);
     onOpen();
   };
+
   const confirmDelete = () => {
     fetch(process.env.REACT_APP_API_URL + "/match/delete/" + currentDelete, {
       method: "DELETE",
@@ -82,6 +84,8 @@ const Match = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    useMatchStore.getState().loadMatchData();
   };
 
   useEffect(() => {

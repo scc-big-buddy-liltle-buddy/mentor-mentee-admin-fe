@@ -31,3 +31,23 @@ export const updateMatchName = async (uid, newName) => {
   });
   return await response.json();
 };
+
+export const matchByFile = async (file, matchName) => {
+  const formData = new FormData();
+  formData.append("data", file);
+  formData.append("matchName", matchName);
+  const response = await fetch(`${apiPath}/match/match_by_file`, {
+    method: "POST",
+    body: formData,
+  });
+  let data = await response.json();
+  if (response.status !== 200) {
+    return {
+      error: data.error,
+    };
+  }
+  return {
+    ok: response.ok,
+    data,
+  };
+};

@@ -1,9 +1,10 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import { useMentorStore, useMenteeStore } from "../store/mem";
 import React, { useEffect } from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useMatchStore } from "../store/match";
+import { authStore } from "../store/auth";
 
 export default function Root() {
   const {
@@ -40,7 +41,15 @@ export default function Root() {
     }
   }, [isErrorLoadingMentee, isErrorLoadingMentor, isErrorLoadingMatch]);
 
+  const { user } = authStore((state) => state);
+
+  const navigate = useNavigate();
   useEffect(() => {
+    // Check current user
+    if (!user) {
+      navigate("/login");
+    }
+
     async function fetchData() {
       await loadMentee();
       await loadMentor();

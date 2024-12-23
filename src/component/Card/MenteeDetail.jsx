@@ -171,7 +171,10 @@ const MenteeDetail = ({
                 </Heading>
                 <Text pt="2" fontSize="sm">
                   {/* If selfIntroduction is longer than 100 chars */}
-                  <TextLimiter text={mentee.bio.selfIntroduction} limit={100} />
+                  <TextLimiter
+                    text={mentee?.bio?.selfIntroduction || ""}
+                    limit={100}
+                  />
                 </Text>
                 <Flex alignItems={"center"} gap={2}>
                   <Text>Hobbies:</Text>

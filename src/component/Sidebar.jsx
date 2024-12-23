@@ -17,6 +17,8 @@ import {
 import { FiLogOut, FiGrid, FiDatabase, FiShare2, FiMenu } from "react-icons/fi";
 import CIOLogo from "../assets/logo/CIOLogo";
 import { useEffect } from "react";
+import { logout } from "../api/auth";
+import { authStore } from "../store/auth";
 const LinkItems = [
   { name: "Dashboard", icon: FiGrid, pathname: "/dashboard" },
   { name: "Manage", icon: FiDatabase, pathname: "/manage" },
@@ -67,6 +69,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
     findLinkItemByPathname(location.pathname).name || LinkItems[0].name
   );
 
+  const { logout: clearAuthStore } = authStore((state) => state);
+  const logoutHandler = async () => {
+    await logout();
+    clearAuthStore();
+    navigate("/login");
+  };
+
   return (
     <Box
       bg={useColorModeValue("white", "gray.900")}
@@ -98,6 +107,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
               if (link.name != LinkItems[LinkItems.length - 1].name) {
                 navigate(`/${link.name.toLowerCase()}`);
                 setCurrent(link.name);
+              } else {
+                logoutHandler();
               }
             }}
           >

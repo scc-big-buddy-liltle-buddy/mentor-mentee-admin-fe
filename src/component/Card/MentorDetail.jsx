@@ -155,7 +155,10 @@ const MentorDetail = ({ mentor }) => {
                 </Heading>
                 <Text pt="2" fontSize="sm">
                   {/* If selfIntroduction is longer than 100 chars */}
-                  <TextLimiter text={mentor.bio.selfIntroduction} limit={100} />
+                  <TextLimiter
+                    text={mentor?.bio?.selfIntroduction || ""}
+                    limit={100}
+                  />
                 </Text>
               </Box>
             </Stack>

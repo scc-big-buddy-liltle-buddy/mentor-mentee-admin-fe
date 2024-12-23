@@ -9,6 +9,7 @@ import "./index.css";
 import Dashboard from "./routes/dashboard";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import MatchDetail from "./component/MatchDetail";
+import Login from "./routes/login";
 
 // 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         element: <Match />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
